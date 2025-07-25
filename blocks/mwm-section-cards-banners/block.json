@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-section-cards-banners",
+	"title": "mwm-section-cards-banners",
+	"description": "Sección de tarjetas con estilo de banner",
+	"category": "comvive-blocks",
+	"icon": "cover-image",
+	"keywords": [
+		"cards",
+		"banners",
+		"section"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-section-cards-banners/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

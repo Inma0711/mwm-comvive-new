@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-contact",
+	"title": "mwm-contact",
+	"description": "Bloque de contacto con formulario y mapa",
+	"category": "comvive-blocks",
+	"icon": "phone",
+	"keywords": [
+		"contact",
+		"form",
+		"map"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-contact/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

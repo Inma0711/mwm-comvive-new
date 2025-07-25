@@ -1,0 +1,27 @@
+{
+    "name": "acf/mwm-section-cta",
+    "title": "mwm-section-cta",
+    "description": "Bloque call to action",
+    "category": "comvive-blocks",
+    "icon": "megaphone",
+    "keywords": [
+        "cta"
+    ],
+    "supports": {
+        "align": false,
+        "mode": false,
+        "jsx": false
+    },
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "blocks/mwm-section-cta/template.php"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "is_preview": true
+            }
+        }
+    }
+}

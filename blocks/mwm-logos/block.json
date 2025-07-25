@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-logos",
+	"title": "mwm-logos",
+	"description": "Sección de logos en grid",
+	"category": "comvive-blocks",
+	"icon": "images-alt2",
+	"keywords": [
+		"logos",
+		"grid",
+		"partners"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-logos/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

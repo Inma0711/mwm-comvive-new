@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-reviews",
+	"title": "mwm-reviews",
+	"description": "Sección de testimonios y reseñas",
+	"category": "comvive-blocks",
+	"icon": "format-quote",
+	"keywords": [
+		"reviews",
+		"testimonials",
+		"quotes"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-reviews/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

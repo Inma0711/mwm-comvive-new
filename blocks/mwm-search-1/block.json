@@ -1,0 +1,28 @@
+{
+	"name": "acf/mwm-search-1",
+	"title": "mwm-search-1",
+	"description": "Bloque de búsqueda de dominios",
+	"category": "comvive-blocks",
+	"icon": "search",
+	"keywords": [
+		"search",
+		"domains"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-search-1/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

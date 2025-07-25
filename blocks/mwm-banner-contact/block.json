@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-banner-contact",
+	"title": "mwm-banner-contact",
+	"description": "Banner de contacto con formulario",
+	"category": "comvive-blocks",
+	"icon": "email",
+	"keywords": [
+		"banner",
+		"contact",
+		"form"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-banner-contact/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

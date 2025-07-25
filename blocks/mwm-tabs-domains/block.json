@@ -1,0 +1,28 @@
+{
+	"name": "acf/mwm-tabs-domains",
+	"title": "MWM Tabs dominios",
+	"description": "Bloque de tabs de búsqueda de dominios",
+	"category": "comvive-blocks",
+	"icon": "admin-generic",
+	"keywords": [
+		"tabs",
+		"domains"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-tabs-domains/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

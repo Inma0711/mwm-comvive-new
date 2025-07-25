@@ -1,0 +1,27 @@
+{
+	"name": "acf/mwm-faqs",
+	"title": "mwm-faqs",
+	"description": "Bloque de FAQs",
+	"category": "comvive-blocks",
+	"icon": "editor-ul",
+	"keywords": [
+		"faqs"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-faqs/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

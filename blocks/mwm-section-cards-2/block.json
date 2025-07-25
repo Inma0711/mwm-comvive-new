@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-section-cards-2",
+	"title": "mwm-section-cards-2",
+	"description": "Sección de tarjetas con diseño alternativo",
+	"category": "comvive-blocks",
+	"icon": "grid-view",
+	"keywords": [
+		"cards",
+		"grid",
+		"section"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-section-cards-2/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

@@ -1,0 +1,28 @@
+{
+	"name": "acf/mwm-banner-announce",
+	"title": "MWM Banner Announce",
+	"description": "Banner de anuncios",
+	"category": "comvive-blocks",
+	"icon": "megaphone",
+	"keywords": [
+		"banner",
+		"announce"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-banner-announce/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-steps",
+	"title": "mwm-steps",
+	"description": "Sección de pasos con título y descripción",
+	"category": "comvive-blocks",
+	"icon": "grid-view",
+	"keywords": [
+		"steps",
+		"list",
+		"section"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-steps/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}

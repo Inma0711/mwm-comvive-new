@@ -1,0 +1,29 @@
+{
+	"name": "acf/mwm-media-text-2",
+	"title": "mwm-media-text-2",
+	"description": "Bloque de media text 2",
+	"category": "comvive-blocks",
+	"icon": "media-text",
+	"keywords": [
+		"media",
+		"text",
+		"2"
+	],
+	"supports": {
+		"align": false,
+		"mode": false,
+		"jsx": false
+	},
+	"acf": {
+		"mode": "preview",
+		"renderTemplate": "blocks/mwm-media-text-2/template.php"
+	},
+	"example": {
+		"attributes": {
+			"mode": "preview",
+			"data": {
+				"is_preview": true
+			}
+		}
+	}
+}
