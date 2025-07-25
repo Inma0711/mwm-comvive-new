@@ -208,11 +208,22 @@ jQuery(document).ready(function($) {
     });
 
     // Manejar el envío de los formularios de "Añadir al carrito"
-    $(document).on('submit', '.domain-results form', function(e) {
+    $(document).off('submit', '.domain-results form').on('submit', '.domain-results form', function(e) {
         e.preventDefault();
         
         const $form = $(this);
         const $button = $form.find('input[type="submit"]');
+        
+        // Verificar si ya está añadido al carrito
+        if ($button.hasClass('added-to-cart')) {
+            return false;
+        }
+        
+        // Evitar múltiples envíos si ya está procesando
+        if ($button.prop('disabled')) {
+            return false;
+        }
+        
         const originalText = $button.val();
         
         // Cambiar el texto del botón para mostrar que se está procesando
@@ -227,13 +238,14 @@ jQuery(document).ready(function($) {
         
         // Simular el envío al carrito (aquí puedes integrar con tu sistema de carrito)
         setTimeout(function() {
-            // Mostrar mensaje de éxito
-            $button.val('¡Añadido!').css('background-color', '#2ecc71');
+            // Marcar como añadido al carrito
+            $button.addClass('added-to-cart');
             
-            // Restaurar el botón después de 2 segundos
-            setTimeout(function() {
-                $button.val(originalText).prop('disabled', false).css('background-color', '');
-            }, 2000);
+            // Cambiar el botón permanentemente
+            $button.val('Ya añadido').prop('disabled', true).css({
+                'background-color': '#95a5a6',
+                'cursor': 'not-allowed'
+            });
             
             // Aquí puedes agregar la lógica real para añadir al carrito
             console.log('Dominio añadido al carrito:', formData);

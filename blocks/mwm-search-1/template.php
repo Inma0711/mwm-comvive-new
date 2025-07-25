@@ -162,5 +162,51 @@ jQuery(document).ready(function($) {
 
         $('#domain_results_container').show();
     });
+	
+    // Manejar el envío de los formularios de "Añadir al carrito"
+    $(document).off('submit', '.domain-results form').on('submit', '.domain-results form', function(e) {
+        e.preventDefault();
+        
+        const $form = $(this);
+        const $button = $form.find('input[type="submit"]');
+        
+        // Verificar si ya está añadido al carrito
+        if ($button.hasClass('added-to-cart')) {
+            return false;
+        }
+        
+        // Evitar múltiples envíos si ya está procesando
+        if ($button.prop('disabled')) {
+            return false;
+        }
+        
+        const originalText = $button.val();
+        
+        // Cambiar el texto del botón para mostrar que se está procesando
+        $button.val('Añadiendo...').prop('disabled', true);
+        
+        // Obtener los datos del formulario
+        const formData = {
+            concept: $form.find('[name="concept"]').val(),
+            product_id: $form.find('[name="product_id"]').val(),
+            action: 'add_to_cart'
+        };
+        
+        // Simular el envío al carrito (aquí puedes integrar con tu sistema de carrito)
+        setTimeout(function() {
+            // Marcar como añadido al carrito
+            $button.addClass('added-to-cart');
+            
+            // Cambiar el botón permanentemente
+            $button.val('Ya añadido').prop('disabled', true).css({
+                'background-color': '#95a5a6',
+                'cursor': 'not-allowed'
+            });
+            
+            // Aquí puedes agregar la lógica real para añadir al carrito
+            console.log('Dominio añadido al carrito:', formData);
+            
+        }, 1000);
+    });
 });
 </script> 
