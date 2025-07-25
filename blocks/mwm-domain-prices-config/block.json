@@ -1,0 +1,24 @@
+{
+    "name": "mwm-domain-prices-config",
+    "title": "MWM - Configurar Precios de Dominios",
+    "description": "Bloque para configurar precios de dominios que se usarán en los bloques de búsqueda",
+    "category": "mwm-blocks",
+    "icon": "admin-settings",
+    "keywords": ["dominios", "precios", "configuración"],
+    "supports": {
+        "html": false,
+        "align": false
+    },
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "preview_image_help": "Este bloque permite configurar los precios de dominios que aparecerán en los bloques de búsqueda."
+            }
+        }
+    }
+} 

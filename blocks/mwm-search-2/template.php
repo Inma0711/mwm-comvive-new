@@ -5,6 +5,22 @@
 
 $title = get_field('title');
 $description = get_field('description');
+
+// Obtener los precios de dominios desde opciones de WordPress
+$domain_prices_from_acf = get_domain_prices_from_options();
+
+// Si no hay precios de ACF, usar los precios por defecto
+if (empty($domain_prices_from_acf)) {
+    $domain_prices_from_acf = array(
+        'com' => array('price' => '14 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '40'),
+        'es' => array('price' => '20 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '72'),
+        'io' => array('price' => '25 €', 'status' => 'Disponible para registro', 'product_id' => '101'),
+        'org' => array('price' => '14 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '94'),
+        'net' => array('price' => '14.00 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '93'),
+        'ai' => array('price' => '35 €', 'status' => 'Disponible para registro', 'product_id' => '102'),
+        'com.es' => array('price' => '12.00 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '95')
+    );
+}
 ?>
 
 <section class="mwm-search-2">
@@ -151,23 +167,8 @@ $description = get_field('description');
 
 <script>
 jQuery(document).ready(function($) {
-    // Datos de ejemplo para los dominios
-    const domainData = {
-        'com': { price: '14 €', status: 'Registrado, traer a Comvive', product_id: '40' },
-        'es': { price: '0 €', status: 'Registrado, traer a Comvive', product_id: '72' },
-        'com.es': { price: '0 €', status: 'Registrado, traer a Comvive', product_id: '95' },
-        'org': { price: '14 €', status: 'Registrado, traer a Comvive', product_id: '94' },
-        'net': { price: '14 €', status: 'Registrado, traer a Comvive', product_id: '93' },
-        'info': { price: '16 €', status: 'Registrado, traer a Comvive', product_id: '98' },
-        'eu': { price: '11 €', status: 'Registrado, traer a Comvive', product_id: '97' },
-        'me': { price: '17 €', status: 'Registrado, traer a Comvive', product_id: '159' },
-        'shop': { price: '31 €', status: 'Registrado, traer a Comvive', product_id: '309' },
-        'art': { price: '21 €', status: 'Disponible para registro', product_id: '396' },
-        'life': { price: '11 €', status: 'Disponible para registro', product_id: '397' },
-        'club': { price: '11 €', status: 'Disponible para registro', product_id: '398' },
-        'app': { price: '11 €', status: 'Disponible para registro', product_id: '399' },
-        'xyz': { price: '11 €', status: 'Disponible para registro', product_id: '396' }
-    };
+    // Datos de dominios desde ACF
+    const domainData = <?php echo json_encode($domain_prices_from_acf); ?>;
 
     // Manejar el envío del formulario
     $('.mwm-search-2__form').on('submit', function(e) {
@@ -175,17 +176,28 @@ jQuery(document).ready(function($) {
         const domainName = $('#search-domains-2').val().trim();
         if (!domainName) return;
 
+        // Obtener los TLDs seleccionados
         const selectedTLDs = $('.mwm-search-2__domains-options input:checked').map(function() {
             return $(this).val();
         }).get();
 
+        console.log('TLDs seleccionados (Search 2):', selectedTLDs);
+
         const tbody = $('#results tbody');
         tbody.empty();
 
-        // Si no hay TLDs seleccionados, mostrar todos
+        // Si no hay TLDs seleccionados, mostrar todos los disponibles
         const tldsToShow = selectedTLDs.length > 0 ? selectedTLDs : Object.keys(domainData);
+        
+        console.log('TLDs a mostrar (Search 2):', tldsToShow);
 
         tldsToShow.forEach(function(tld) {
+            // Verificar si el TLD existe en los datos
+            if (!domainData[tld]) {
+                console.warn('TLD no encontrado en datos (Search 2):', tld);
+                return;
+            }
+
             const template = $('#template_row').html();
             const $row = $(template);
             $row.attr('data-tld', tld);

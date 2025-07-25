@@ -6,6 +6,24 @@
 $title = get_field('title');
 $description_1 = get_field('description_1');
 $description_2 = get_field('description_2');
+
+// Obtener los precios de dominios desde opciones de WordPress
+$domain_prices_from_acf = get_domain_prices_from_options();
+
+
+
+// Si no hay precios de ACF, usar los precios por defecto
+if (empty($domain_prices_from_acf)) {
+    $domain_prices_from_acf = array(
+        'com' => array('price' => '14 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '40'),
+        'es' => array('price' => '20 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '72'),
+        'io' => array('price' => '25 €', 'status' => 'Disponible para registro', 'product_id' => '101'),
+        'org' => array('price' => '14 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '94'),
+        'net' => array('price' => '14.00 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '93'),
+        'ai' => array('price' => '35 €', 'status' => 'Disponible para registro', 'product_id' => '102'),
+        'com.es' => array('price' => '12.00 €', 'status' => 'Registrado, traer a Comvive', 'product_id' => '95')
+    );
+}
 ?>
 
 <section class="mwm-search-1">
@@ -22,54 +40,34 @@ $description_2 = get_field('description_2');
 						<button type="submit" id="search-domains-button"><?php esc_html_e('Buscar', 'comvive'); ?></button>
 					</div>
 					<ul class="mwm-search-1__domains-options">
-						<li class="mwm-search-1__domains-option">
-							<input type="checkbox" id="search-domains-option-1" value="com">
-							<label for="search-domains-option-1">
-								<span class="mwm-search-1__domains-option-name"><?php esc_html_e('.com', 'comvive'); ?></span>
-								<span class="mwm-search-1__domains-option-price-old">14 €</span>
-								<span class="mwm-search-1__domains-option-price">12 €</span>
-							</label>
-						</li>
-						<li class="mwm-search-1__domains-option">
-							<input type="checkbox" id="search-domains-option-2" value="es">
-							<label for="search-domains-option-2">
-								<span class="mwm-search-1__domains-option-name"><?php esc_html_e('.es', 'comvive'); ?></span>
-								<span class="mwm-search-1__domains-option-price-old">14 €</span>
-								<span class="mwm-search-1__domains-option-price">12 €</span>
-							</label>
-						</li>
-						<li class="mwm-search-1__domains-option">
-							<input type="checkbox" id="search-domains-option-3" value="io">
-							<label for="search-domains-option-3">
-								<span class="mwm-search-1__domains-option-name"><?php esc_html_e('.io', 'comvive'); ?></span>
-								<span class="mwm-search-1__domains-option-price-old">14 €</span>
-								<span class="mwm-search-1__domains-option-price">12 €</span>
-							</label>
-						</li>
-						<li class="mwm-search-1__domains-option">
-							<input type="checkbox" id="search-domains-option-4" value="org">
-							<label for="search-domains-option-4">
-								<span class="mwm-search-1__domains-option-name"><?php esc_html_e('.org', 'comvive'); ?></span>
-								<span class="mwm-search-1__domains-option-price-old">14 €</span>
-								<span class="mwm-search-1__domains-option-price">12 €</span>
-							</label>
-						</li>
-						<li class="mwm-search-1__domains-option">
-							<input type="checkbox" id="search-domains-option-5" value="net">
-							<label for="search-domains-option-5">
-								<span class="mwm-search-1__domains-option-name"><?php esc_html_e('.net', 'comvive'); ?></span>
-								<span class="mwm-search-1__domains-option-price-old">14 €</span>
-								<span class="mwm-search-1__domains-option-price">12 €</span>
-							</label>
-						</li>
-						<li class="mwm-search-1__domains-option">
-							<input type="checkbox" id="search-domains-option-6" value="ai">
-							<label for="search-domains-option-6">
-								<span class="mwm-search-1__domains-option-name"><?php esc_html_e('.ai', 'comvive'); ?></span>
-								<span class="mwm-search-1__domains-option-price-old">14 €</span>
-								<span class="mwm-search-1__domains-option-price">12 €</span>
-							</label>
-						</li>
+						<?php 
+						$option_counter = 1;
+						$tlds_to_show = array('com', 'es', 'io', 'org', 'net', 'ai');
+						
+						foreach ($tlds_to_show as $tld) {
+							// Obtener precio directamente de ACF
+							$price = '14 €'; // Precio por defecto
+							$price_old = '14 €'; // Precio tachado fijo
+							
+							// Buscar el precio en los datos de ACF
+							if (isset($domain_prices_from_acf[$tld])) {
+								$price = $domain_prices_from_acf[$tld]['price'];
+							}
+							
+
+							?>
+							<li class="mwm-search-1__domains-option">
+								<input type="checkbox" id="search-domains-option-<?php echo $option_counter; ?>" value="<?php echo $tld; ?>">
+								<label for="search-domains-option-<?php echo $option_counter; ?>">
+									<span class="mwm-search-1__domains-option-name"><?php echo '.' . $tld; ?></span>
+									<span class="mwm-search-1__domains-option-price-old"><?php echo $price_old; ?></span>
+									<span class="mwm-search-1__domains-option-price"><?php echo $price; ?></span>
+								</label>
+							</li>
+							<?php
+							$option_counter++;
+						}
+						?>
 					</ul>
 				</form>
 
@@ -111,19 +109,9 @@ $description_2 = get_field('description_2');
 
 <script>
 jQuery(document).ready(function($) {
-    // Datos de ejemplo para los dominios
-    const domainData = {
-        'com': { price: '14 €', status: 'Registrado, traer a Comvive', product_id: '40' },
-        'es': { price: '0 €', status: 'Registrado, traer a Comvive', product_id: '72' },
-        'com.es': { price: '0 €', status: 'Registrado, traer a Comvive', product_id: '95' },
-        'org': { price: '14 €', status: 'Registrado, traer a Comvive', product_id: '94' },
-        'net': { price: '14 €', status: 'Registrado, traer a Comvive', product_id: '93' },
-        'info': { price: '16 €', status: 'Registrado, traer a Comvive', product_id: '98' },
-        'eu': { price: '11 €', status: 'Registrado, traer a Comvive', product_id: '97' },
-        'me': { price: '17 €', status: 'Registrado, traer a Comvive', product_id: '159' },
-        'shop': { price: '31 €', status: 'Registrado, traer a Comvive', product_id: '309' },
-        'art': { price: '21 €', status: 'Disponible para registro', product_id: '396' }
-    };
+    // Datos de dominios desde ACF
+                    const domainData = <?php echo json_encode($domain_prices_from_acf); ?>;
+
 
     // Manejar el envío del formulario
     $('.mwm-search-1__form').on('submit', function(e) {
@@ -131,17 +119,28 @@ jQuery(document).ready(function($) {
         const domainName = $('#search-domains').val().trim();
         if (!domainName) return;
 
+        // Obtener los TLDs seleccionados
         const selectedTLDs = $('.mwm-search-1__domains-options input:checked').map(function() {
             return $(this).val();
         }).get();
 
+        console.log('TLDs seleccionados:', selectedTLDs);
+
         const tbody = $('#results tbody');
         tbody.empty();
 
-        // Si no hay TLDs seleccionados, mostrar todos
+        // Si no hay TLDs seleccionados, mostrar todos los disponibles
         const tldsToShow = selectedTLDs.length > 0 ? selectedTLDs : Object.keys(domainData);
+        
+        console.log('TLDs a mostrar:', tldsToShow);
 
         tldsToShow.forEach(function(tld) {
+            // Verificar si el TLD existe en los datos
+            if (!domainData[tld]) {
+                console.warn('TLD no encontrado en datos:', tld);
+                return;
+            }
+
             const template = $('#template_row').html();
             const $row = $(template);
             $row.attr('data-tld', tld);
