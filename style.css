@@ -1034,6 +1034,28 @@ input[type=checkbox]:checked::after {
   color: var(--mwm--color--n100);
   background: inherit;
 }
+.mwm-card-1__btn .add-to-cart-btn {
+  width: 100%;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: var(--mwm--color--n100);
+  background: inherit;
+}
+.mwm-card-1__btn .add-to-cart-btn:hover:not(.added-to-cart) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.mwm-card-1__btn .add-to-cart-btn.added-to-cart {
+  font-weight: 700;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
 /*	# MWM CARD 2
 ===================================*/

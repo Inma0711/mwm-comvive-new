@@ -1216,6 +1216,32 @@ input[type="checkbox"] {
 			color: var(--mwm--color--n100);
 			background: inherit
 		}
+		
+		.add-to-cart-btn {
+			width: 100%;
+			display: block;
+			text-decoration: none;
+			text-align: center;
+			padding: 12px 24px;
+			border-radius: 6px;
+			font-weight: 600;
+			transition: all 0.3s ease;
+			cursor: pointer;
+			color: var(--mwm--color--n100);
+			background: inherit;
+			
+			&:hover:not(.added-to-cart) {
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+			}
+			
+			&.added-to-cart {
+				// Solo cambiar el peso de la fuente, el color se maneja en JavaScript
+				font-weight: 700;
+				cursor: not-allowed;
+				pointer-events: none;
+			}
+		}
 	}
 }
 
