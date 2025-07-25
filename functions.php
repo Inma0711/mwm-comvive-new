@@ -6,6 +6,7 @@ require_once( get_template_directory() . '/theme_framework/mwm_framework.php' );
 require_once( get_template_directory() . '/includes/functions.php' );
 require_once( get_template_directory() . '/includes/blocks.php' );
 require_once( get_template_directory() . '/includes/domain-functions.php' );
+require_once( get_template_directory() . '/includes/cart-integration.php' );
 
 
 /*  THEME SUPPORTS

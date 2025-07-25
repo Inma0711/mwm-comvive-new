@@ -100,6 +100,51 @@ jQuery(document).ready(function($) {
         return color; // Si no se puede procesar, devolver el color original
     }
     
+    // Función para obtener product_id basado en el título
+    function getProductIdFromTitle(title) {
+        // Mapeo de títulos a product_ids (ajustar según tus productos)
+        var productMap = {
+            'Server Inicio': 1001,
+            'Server Avanzado': 1002,
+            'Server Profesional': 1003,
+            'Server Agencia': 1004
+        };
+        return productMap[title] || 1001; // Default
+    }
+    
+    // Función para obtener periodicity basado en los meses
+    function getPeriodicityFromMonths(months) {
+        // Extraer número de meses del texto
+        var match = months.match(/(\d+)/);
+        if (match) {
+            var numMonths = parseInt(match[1]);
+            // Validar periodicity según cart.php
+            if ([1, 12, 24, 36].includes(numMonths)) {
+                return numMonths;
+            }
+        }
+        return 12; // Default
+    }
+    
+    // Función para actualizar contador del carrito
+    function updateCartCount() {
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: {
+                action: 'get_cart_count',
+                nonce: '<?php echo wp_create_nonce('get_cart_count_nonce'); ?>'
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log('🛒 Items en carrito:', response.count);
+                    // Aquí puedes actualizar un contador visual en la página
+                    // $('.cart-count').text(response.count);
+                }
+            }
+        });
+    }
+    
     // Manejar clics en botones de "Añadir al carrito"
     $('.mwm-section-cards-3 .add-to-cart-btn').on('click', function(e) {
         e.preventDefault();
@@ -118,39 +163,66 @@ jQuery(document).ready(function($) {
         $button.addClass('added-to-cart');
         $button.text('Añadiendo...');
         
-        // Simular proceso de añadir al carrito
-        setTimeout(function() {
-            // Cambiar a estado "añadido"
-            $button.text('¡Añadido!');
-            
-            // Obtener el color original del contenedor padre
-            var $parentBtn = $button.closest('.mwm-card-1__btn');
-            var originalColor = $parentBtn.css('background-color');
-            
-            // Crear una versión más oscura del color original
-            var darkerColor = getDarkerColor(originalColor);
-            
-            // Aplicar el color oscuro al contenedor padre
-            $parentBtn.css({
-                'background-color': darkerColor + ' !important'
-            });
-            
-            $button.css({
-                'color': 'white'
-            });
-            
-            // Log en consola para verificar
-            console.log('Producto añadido al carrito:', {
-                title: productTitle,
-                price: productPrice,
-                months: productMonths,
-                timestamp: new Date().toISOString()
-            });
-            
-            // Opcional: Mostrar notificación
-            console.log('✅ Producto "' + productTitle + '" añadido al carrito correctamente');
-            
-        }, 1000);
+        // Añadir al carrito real con SSID
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: {
+                action: 'add_to_cart_real',
+                nonce: '<?php echo wp_create_nonce('add_to_cart_real_nonce'); ?>',
+                product_id: getProductIdFromTitle(productTitle),
+                concept: productTitle,
+                detail: productPrice + ' - ' + productMonths,
+                periodicity: getPeriodicityFromMonths(productMonths)
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Cambiar a estado "añadido"
+                    $button.text('¡Añadido!');
+                    
+                    // Obtener el color original del contenedor padre
+                    var $parentBtn = $button.closest('.mwm-card-1__btn');
+                    var originalColor = $parentBtn.css('background-color');
+                    
+                    // Crear una versión más oscura del color original
+                    var darkerColor = getDarkerColor(originalColor);
+                    
+                    // Aplicar el color oscuro al contenedor padre
+                    $parentBtn.css({
+                        'background-color': darkerColor + ' !important'
+                    });
+                    
+                    $button.css({
+                        'color': 'white'
+                    });
+                    
+                    // Log en consola para verificar
+                    console.log('✅ Producto añadido al carrito real:', {
+                        title: productTitle,
+                        price: productPrice,
+                        months: productMonths,
+                        cart_data: response.data,
+                        ssid: response.ssid,
+                        num_items: response.data.num_items,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Opcional: Actualizar contador del carrito en la página
+                    updateCartCount();
+                } else {
+                    // Error al añadir al carrito
+                    $button.text('Error');
+                    $button.css('background-color', '#dc3545');
+                    console.error('❌ Error al añadir al carrito:', response);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error de conexión
+                $button.text('Error');
+                $button.css('background-color', '#dc3545');
+                console.error('❌ Error de conexión:', error);
+            }
+        });
     });
 });
 </script> 

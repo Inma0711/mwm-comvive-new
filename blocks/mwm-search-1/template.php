@@ -111,6 +111,25 @@ if (empty($domain_prices_from_acf)) {
 jQuery(document).ready(function($) {
     // Datos de dominios desde ACF
                     const domainData = <?php echo json_encode($domain_prices_from_acf); ?>;
+    
+    // Función para actualizar contador del carrito
+    function updateCartCount() {
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: {
+                action: 'get_cart_count',
+                nonce: '<?php echo wp_create_nonce('get_cart_count_nonce'); ?>'
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log('🛒 Items en carrito:', response.count);
+                    // Aquí puedes actualizar un contador visual en la página
+                    // $('.cart-count').text(response.count);
+                }
+            }
+        });
+    }
 
 
     // Manejar el envío del formulario
@@ -191,21 +210,58 @@ jQuery(document).ready(function($) {
             action: 'add_to_cart'
         };
         
-        // Simular el envío al carrito (aquí puedes integrar con tu sistema de carrito)
-        setTimeout(function() {
-            // Marcar como añadido al carrito
-            $button.addClass('added-to-cart');
-            
-            // Cambiar el botón permanentemente
-            $button.val('Ya añadido').prop('disabled', true).css({
-                'background-color': '#95a5a6',
-                'cursor': 'not-allowed'
-            });
-            
-            // Aquí puedes agregar la lógica real para añadir al carrito
-            console.log('Dominio añadido al carrito:', formData);
-            
-        }, 1000);
+        // Añadir dominio al carrito real
+        $.ajax({
+            url: '<?php echo admin_url('admin-ajax.php'); ?>',
+            type: 'POST',
+            data: {
+                action: 'add_to_cart_real',
+                nonce: '<?php echo wp_create_nonce('add_to_cart_real_nonce'); ?>',
+                product_id: formData.product_id,
+                concept: formData.concept,
+                detail: 'Registro de dominio',
+                periodicity: 12
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Marcar como añadido al carrito
+                    $button.addClass('added-to-cart');
+                    
+                    // Cambiar el botón permanentemente
+                    $button.val('¡Añadido!').prop('disabled', true).css({
+                        'background-color': '#28a745',
+                        'color': 'white',
+                        'cursor': 'not-allowed'
+                    });
+                    
+                    console.log('✅ Dominio añadido al carrito real:', {
+                        domain: formData.concept,
+                        product_id: formData.product_id,
+                        cart_data: response.data,
+                        ssid: response.ssid,
+                        num_items: response.data.num_items
+                    });
+                    
+                    // Actualizar contador del carrito
+                    updateCartCount();
+                } else {
+                    // Error al añadir al carrito
+                    $button.val('Error').prop('disabled', false).css({
+                        'background-color': '#dc3545',
+                        'color': 'white'
+                    });
+                    console.error('❌ Error al añadir dominio:', response);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error de conexión
+                $button.val('Error').prop('disabled', false).css({
+                    'background-color': '#dc3545',
+                    'color': 'white'
+                });
+                console.error('❌ Error de conexión:', error);
+            }
+        });
     });
 });
 </script> 
