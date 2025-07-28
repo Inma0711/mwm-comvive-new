@@ -40,15 +40,9 @@ mwm_add_menu($menus);
 if ( ! function_exists( 'mwm_enqueue_scripts' ) ) {
 	function mwm_enqueue_scripts() {
 		$scripts = array(
-			'swiper' => array(
-				'path' => get_template_directory_uri() . '/assets/js/swiper/swiper-bundle.min.js',
-				'deps' => array('jquery'),
-				'ver' => '11.0.7',
-				'in_footer' => true
-			),
 			'mwm-scripts' => array(
 				'path' => get_template_directory_uri() . '/assets/js/scripts.js',
-				'deps' => array('jquery', 'swiper'),
+				'deps' => array('jquery'),
 				'ver' => '1.0.0',
 				'in_footer' => true
 			)
@@ -68,16 +62,9 @@ if ( ! function_exists( 'mwm_enqueue_scripts' ) ) {
 				'ver' => '1.0.0',
 				'media' => 'all'
 			),
-			'swiper' => array(
-				'path' => get_template_directory_uri() . '/assets/js/swiper/swiper-bundle.min.css',
-				'deps' => array(),
-				'ver' => '11.0.7',
-				'media' => 'all',
-				'in_footer' => true
-			),
 			'mwm-styles' => array(
-				'path' => get_template_directory_uri() . '/style.min.css',
-				'deps' => array('mwm-normalize', 'mwm-fonts', 'swiper'),
+				'path' => get_template_directory_uri() . '/style.css',
+				'deps' => array('mwm-normalize', 'mwm-fonts'),
 				'ver' => '1.0.0',
 				'media' => 'all'
 			)
