@@ -41,6 +41,14 @@
 								'container'       => false,
 							));
 						?>
+						
+						<div class="mwm-header__cart">
+							<a href="#" class="mwm-cart-icon" id="mwm-cart-icon">
+								<?php get_template_part( 'assets/images/icons/icon-cart' ); ?>
+								<span class="mwm-cart-count" id="mwm-cart-count">0</span>
+							</a>
+						</div>
+						
 						<a class="mwm-btn" href="#">
 							<?php echo esc_html__('Área de clientes', 'comvive'); ?>
 						</a>

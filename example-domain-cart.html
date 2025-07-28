@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo - Carrito de Dominios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .domain-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .domain-info {
+            flex: 1;
+        }
+        .domain-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .domain-price {
+            color: #666;
+            font-size: 14px;
+        }
+        .add-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .add-btn:hover {
+            background: #218838;
+        }
+        .cart-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ejemplo - Carrito de Dominios</h1>
+    
+    <div class="cart-info">
+        <h3>Información del Carrito</h3>
+        <p>Este ejemplo muestra cómo agregar dominios al carrito y actualizar el contador.</p>
+        <p>Para usar en tu sitio, añade los atributos <code>data-domain</code>, <code>data-tld</code> y <code>data-product-id</code> a tus botones.</p>
+    </div>
+
+    <h2>Dominios Disponibles</h2>
+    
+    <div class="domain-card">
+        <div class="domain-info">
+            <div class="domain-name">ejemplo.com</div>
+            <div class="domain-price">12€/año</div>
+        </div>
+        <button class="add-btn" 
+                data-domain="ejemplo" 
+                data-tld="com" 
+                data-product-id="40">
+            Agregar al Carrito
+        </button>
+    </div>
+
+    <div class="domain-card">
+        <div class="domain-info">
+            <div class="domain-name">miempresa.es</div>
+            <div class="domain-price">14€/año</div>
+        </div>
+        <button class="add-btn" 
+                data-domain="miempresa" 
+                data-tld="es" 
+                data-product-id="72">
+            Agregar al Carrito
+        </button>
+    </div>
+
+    <div class="domain-card">
+        <div class="domain-info">
+            <div class="domain-name">startup.io</div>
+            <div class="domain-price">63€/año</div>
+        </div>
+        <button class="add-btn" 
+                data-domain="startup" 
+                data-tld="io" 
+                data-product-id="101">
+            Agregar al Carrito
+        </button>
+    </div>
+
+    <div class="domain-card">
+        <div class="domain-info">
+            <div class="domain-name">organizacion.org</div>
+            <div class="domain-price">14€/año</div>
+        </div>
+        <button class="add-btn" 
+                data-domain="organizacion" 
+                data-tld="org" 
+                data-product-id="94">
+            Agregar al Carrito
+        </button>
+    </div>
+
+    <div class="domain-card">
+        <div class="domain-info">
+            <div class="domain-name">tecnologia.net</div>
+            <div class="domain-price">14€/año</div>
+        </div>
+        <button class="add-btn" 
+                data-domain="tecnologia" 
+                data-tld="net" 
+                data-product-id="93">
+            Agregar al Carrito
+        </button>
+    </div>
+
+    <div class="domain-card">
+        <div class="domain-info">
+            <div class="domain-name">inteligencia.ai</div>
+            <div class="domain-price">12€/año</div>
+        </div>
+        <button class="add-btn" 
+                data-domain="inteligencia" 
+                data-tld="ai" 
+                data-product-id="102">
+            Agregar al Carrito
+        </button>
+    </div>
+
+    <h3>Funciones Disponibles</h3>
+    <ul>
+        <li><code>addToCart()</code> - Agregar item simple al carrito</li>
+        <li><code>addDomainToCart(domainName, tld, productId)</code> - Agregar dominio específico</li>
+        <li><code>clearCart()</code> - Limpiar el carrito</li>
+    </ul>
+
+    <h3>Atributos de Datos</h3>
+    <p>Para que los botones funcionen automáticamente, añade estos atributos:</p>
+    <ul>
+        <li><code>data-domain="nombre"</code> - Nombre del dominio (sin TLD)</li>
+        <li><code>data-tld="com"</code> - Extensión del dominio</li>
+        <li><code>data-product-id="40"</code> - ID del producto en el sistema</li>
+    </ul>
+
+    <script>
+        // Ejemplo de uso manual
+        function addExampleDomain() {
+            // Esto simula agregar un dominio manualmente
+            if (typeof addDomainToCart === 'function') {
+                addDomainToCart('ejemplo', 'com', 40);
+            } else {
+                console.log('Función addDomainToCart no disponible');
+            }
+        }
+
+        // Ejemplo de uso simple
+        function addSimpleItem() {
+            if (typeof addToCart === 'function') {
+                addToCart();
+            } else {
+                console.log('Función addToCart no disponible');
+            }
+        }
+    </script>
+</body>
+</html> 

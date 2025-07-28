@@ -901,8 +901,78 @@ input[type=checkbox]:checked::after {
     visibility: hidden;
     min-width: 10rem;
   }
+  .mwm-header__cart {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .mwm-header__cart .mwm-cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+  }
+  .mwm-header__cart .mwm-cart-icon:hover {
+    background-color: var(--mwm--color--border);
+  }
+  .mwm-header__cart .mwm-cart-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--mwm--color--p100);
+  }
+  .mwm-header__cart .mwm-cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--mwm--color--accent, #ff4444);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: var(--mwm--font-weight--semibold);
+    line-height: 1;
+    min-width: 20px;
+    transition: all 0.2s ease;
+  }
+  .mwm-header__cart .mwm-cart-count:empty {
+    display: none;
+  }
+  .mwm-header__cart .mwm-cart-count.has-items {
+    animation: cartBounce 0.3s ease-in-out;
+  }
+  .mwm-header__cart .mwm-cart-count.pulse {
+    animation: cartPulse 0.3s ease-in-out;
+  }
 }
 
+@keyframes cartBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+@keyframes cartPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+    background-color: var(--mwm--color--accent, #ff4444);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 /*	# MWM CARD ENTRY
 ===================================*/
 .mwm-card-entry {

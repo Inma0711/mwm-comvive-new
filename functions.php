@@ -183,3 +183,15 @@ function mwm_template_include($template) {
     return $template;
 }
 add_filter('template_include', 'mwm_template_include');
+
+/**
+ * Añadir variables AJAX para el carrito
+ */
+function mwm_add_ajax_vars() {
+    wp_localize_script('mwm-scripts', 'mwm_ajax', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'add_to_cart_nonce' => wp_create_nonce('add_to_cart_real_nonce'),
+        'get_cart_count_nonce' => wp_create_nonce('get_cart_count_nonce')
+    ));
+}
+add_action('wp_enqueue_scripts', 'mwm_add_ajax_vars');

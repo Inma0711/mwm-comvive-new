@@ -106,3 +106,181 @@ jQuery(document).ready(function($){
 		$(this).parent().find('.mwm-faqs__row-content').slideToggle(300);
 	});
 });
+
+/*	# MWM CART
+=============================================== */
+
+jQuery(document).ready(function($){
+	// Inicializar el contador del carrito en 0
+	let cartCount = 0;
+	updateCartCount(cartCount);
+	
+	// Función para actualizar el contador del carrito
+	function updateCartCount(count) {
+		const cartCountElement = $('#mwm-cart-count');
+		if (cartCountElement.length) {
+			cartCountElement.text(count);
+			
+			// Añadir animación si el contador cambia
+			if (count > 0) {
+				cartCountElement.addClass('has-items');
+			} else {
+				cartCountElement.removeClass('has-items');
+			}
+		}
+	}
+	
+	// Función para incrementar el contador local
+	function incrementCartCount() {
+		cartCount++;
+		localStorage.setItem('mwm_cart_count', cartCount);
+		updateCartCount(cartCount);
+		
+		// Añadir animación al contador
+		$('#mwm-cart-count').addClass('pulse');
+		setTimeout(function() {
+			$('#mwm-cart-count').removeClass('pulse');
+		}, 300);
+		
+		console.log('🛒 Contador incrementado a:', cartCount);
+	}
+	
+	// Función para añadir item al carrito (versión simple)
+	window.addToCart = function() {
+		let currentCount = parseInt(localStorage.getItem('mwm_cart_count') || 0);
+		currentCount++;
+		localStorage.setItem('mwm_cart_count', currentCount);
+		updateCartCount(currentCount);
+		
+		// Añadir animación al contador
+		$('#mwm-cart-count').addClass('pulse');
+		setTimeout(function() {
+			$('#mwm-cart-count').removeClass('pulse');
+		}, 300);
+		
+		console.log('Item agregado al carrito. Total:', currentCount);
+	}
+	
+	// Función para añadir dominio al carrito (integración con el sistema real)
+	window.addDomainToCart = function(domainName, tld, productId) {
+		// Llamar al sistema real de carrito
+		$.ajax({
+			url: mwm_ajax.ajaxurl,
+			type: 'POST',
+			data: {
+				action: 'add_to_cart_real',
+				nonce: mwm_ajax.add_to_cart_nonce,
+				product_id: productId,
+				concept: domainName + '.' + tld,
+				detail: 'Registro de dominio',
+				periodicity: 12
+			},
+			success: function(response) {
+				if (response.success) {
+					// Incrementar contador local
+					incrementCartCount();
+					
+					console.log('✅ Dominio agregado al carrito real:', domainName + '.' + tld);
+					console.log('SSID del carrito:', response.ssid);
+				} else {
+					console.error('❌ Error al agregar dominio al carrito:', response.error);
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('Error en la petición AJAX:', error);
+			}
+		});
+	}
+	
+	// Función para limpiar el carrito
+	window.clearCart = function() {
+		localStorage.removeItem('mwm_cart_count');
+		updateCartCount(0);
+		console.log('Carrito limpiado');
+	}
+	
+	// Click en el ícono del carrito
+	$('#mwm-cart-icon').click(function(e) {
+		e.preventDefault();
+		console.log('Carrito clickeado - Items:', cartCount);
+	});
+	
+	// Interceptar clicks en botones de "Agregar dominio" o similares
+	$(document).on('click', '[data-add-domain], .add-domain-btn, .domain-add-btn', function(e) {
+		e.preventDefault();
+		
+		const $btn = $(this);
+		const domainName = $btn.data('domain') || $btn.closest('[data-domain]').data('domain');
+		const tld = $btn.data('tld') || $btn.closest('[data-tld]').data('tld');
+		const productId = $btn.data('product-id') || $btn.closest('[data-product-id]').data('product-id');
+		
+		if (domainName && tld && productId) {
+			addDomainToCart(domainName, tld, productId);
+		} else {
+			// Fallback: solo incrementar contador
+			addToCart();
+		}
+	});
+	
+	// Interceptar directamente el submit de formularios de dominios
+	$(document).on('submit', '.domain-results form', function(e) {
+		const $form = $(this);
+		const $button = $form.find('.btn_producto');
+		const concept = $form.find('[name="concept"]').val();
+		const productId = $form.find('[name="product_id"]').val();
+		
+		console.log('🔄 Formulario de dominio enviado:', concept);
+		
+		// No prevenir el comportamiento por defecto
+		// Solo vamos a escuchar y actualizar nuestro contador
+		
+		// Esperar a que el sistema existente procese
+		setTimeout(function() {
+			// Verificar si el botón cambió de estado
+			if ($button.hasClass('added-to-cart') || $button.val() === '¡Añadido!' || $button.val() === 'Ya añadido') {
+				incrementCartCount();
+				console.log('✅ Dominio agregado exitosamente:', concept);
+			} else {
+				console.log('❌ Dominio no se agregó:', concept);
+			}
+		}, 1000);
+	});
+	
+	// También escuchar clicks directos en botones
+	$(document).on('click', '.btn_producto', function() {
+		const $button = $(this);
+		const $form = $button.closest('form');
+		
+		if ($form.length && !$button.hasClass('added-to-cart')) {
+			const concept = $form.find('[name="concept"]').val();
+			console.log('🖱️ Click en botón de dominio:', concept);
+			
+			// Esperar a que se procese
+			setTimeout(function() {
+				if ($button.hasClass('added-to-cart') || $button.val() === '¡Añadido!' || $button.val() === 'Ya añadido') {
+					incrementCartCount();
+					console.log('✅ Dominio agregado por click:', concept);
+				}
+			}, 1000);
+		}
+	});
+	
+	// Interceptar todas las respuestas AJAX para detectar cuando se agrega un dominio
+	$(document).ajaxSuccess(function(event, xhr, settings) {
+		if (settings.url && settings.url.includes('admin-ajax.php')) {
+			try {
+				const response = JSON.parse(xhr.responseText);
+				if (response.success && settings.data && settings.data.includes('add_to_cart_real')) {
+					console.log('🎯 Respuesta AJAX detectada:', response);
+					incrementCartCount();
+					console.log('✅ Contador incrementado por respuesta AJAX');
+				}
+			} catch (e) {
+				// No es JSON válido, ignorar
+			}
+		}
+	});
+	
+	// El contador empieza en 0 y se incrementa según se agreguen dominios
+	console.log('🛒 Carrito inicializado en 0');
+});
